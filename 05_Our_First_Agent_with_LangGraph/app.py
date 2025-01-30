@@ -51,6 +51,9 @@ class AgentPipeline:
         return {"messages": [response]} # Ensures response is a list
 
     async def tool_call_or_helpful(self, state):
+        if len(state["messages"]) > 10: # checks whether to end the query cycle as the first step of this function
+            return "end"
+        
         last_message = state["messages"][-1]
         
         if last_message.tool_calls:
@@ -58,9 +61,6 @@ class AgentPipeline:
         
         initial_query = state["messages"][0]
         final_response = state["messages"][-1]
-
-        if len(state["messages"]) > 5:
-            return "end"
 
         helpfulness_prompt_template = """\
         Given an initial query and a final response, determine if the final response is extremely helpful or not. 
