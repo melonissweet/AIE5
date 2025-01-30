@@ -59,7 +59,7 @@ class AgentPipeline:
         initial_query = state["messages"][0]
         final_response = state["messages"][-1]
 
-        if len(state["messages"]) > 10:
+        if len(state["messages"]) > 5:
             return "end"
 
         helpfulness_prompt_template = """\
