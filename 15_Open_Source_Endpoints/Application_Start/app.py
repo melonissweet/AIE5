@@ -193,10 +193,12 @@ async def main(message: cl.Message):
 
     msg = cl.Message(content="")
 
+    full_response = ""
+
     async for chunk in lcel_rag_chain.astream(
         {"query": message.content},
         config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
     ):
-        await msg.stream_token(chunk)
+        full_response += chunk.content
 
-    await msg.send()
+    await cl.Message(content=full_response).send()
