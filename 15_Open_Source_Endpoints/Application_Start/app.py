@@ -15,7 +15,10 @@ from tqdm.asyncio import tqdm_asyncio
 import asyncio
 from tqdm.asyncio import tqdm
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c4cc6342df5910bb8d77e6e03e4f9fc5c969a699
 # GLOBAL SCOPE - ENTIRE APPLICATION HAS ACCESS TO VALUES SET IN THIS SCOPE #
 # ---- ENV VARIABLES ---- # 
 """
@@ -43,6 +46,7 @@ HF_TOKEN = os.environ["HF_TOKEN"]
 """
 ### 1. CREATE TEXT LOADER AND LOAD DOCUMENTS
 ### NOTE: PAY ATTENTION TO THE PATH THEY ARE IN. 
+<<<<<<< HEAD
 
 path = "./data/paul_graham_essays.txt"
 text_loader = TextLoader(path)
@@ -59,6 +63,17 @@ hf_embeddings = HuggingFaceEndpointEmbeddings(
     task="feature-extraction",
     huggingfacehub_api_token=HF_TOKEN,
 )
+=======
+text_loader = 
+documents = 
+
+### 2. CREATE TEXT SPLITTER AND SPLIT DOCUMENTS
+text_splitter = 
+split_documents = 
+
+### 3. LOAD HUGGINGFACE EMBEDDINGS
+hf_embeddings = 
+>>>>>>> c4cc6342df5910bb8d77e6e03e4f9fc5c969a699
 
 async def add_documents_async(vectorstore, documents):
     await vectorstore.aadd_documents(documents)
@@ -118,6 +133,7 @@ hf_retriever = asyncio.run(run())
 2. Create a Prompt Template from the String Template
 """
 ### 1. DEFINE STRING TEMPLATE
+<<<<<<< HEAD
 RAG_PROMPT_TEMPLATE = """\
 <|start_header_id|>system<|end_header_id|>
 You are a helpful assistant. You answer user questions based on provided context. If you can't answer the question with the provided context, say you don't know.<|eot_id|>
@@ -134,12 +150,19 @@ Context:
 
 ### 2. CREATE PROMPT TEMPLATE
 rag_prompt = PromptTemplate.from_template(RAG_PROMPT_TEMPLATE)
+=======
+RAG_PROMPT_TEMPLATE = 
+
+### 2. CREATE PROMPT TEMPLATE
+rag_prompt =
+>>>>>>> c4cc6342df5910bb8d77e6e03e4f9fc5c969a699
 
 # -- GENERATION -- #
 """
 1. Create a HuggingFaceEndpoint for the LLM
 """
 ### 1. CREATE HUGGINGFACE ENDPOINT FOR LLM
+<<<<<<< HEAD
 hf_llm = HuggingFaceEndpoint(
     endpoint_url=HF_LLM_ENDPOINT,
     max_new_tokens=512,
@@ -149,6 +172,9 @@ hf_llm = HuggingFaceEndpoint(
     repetition_penalty=1.15,
     huggingfacehub_api_token=HF_TOKEN,
 )
+=======
+hf_llm = 
+>>>>>>> c4cc6342df5910bb8d77e6e03e4f9fc5c969a699
 
 @cl.author_rename
 def rename(original_author: str):
@@ -173,10 +199,14 @@ async def start_chat():
     """
 
     ### BUILD LCEL RAG CHAIN THAT ONLY RETURNS TEXT
+<<<<<<< HEAD
     lcel_rag_chain = (
         {"context": itemgetter("query") | hf_retriever, "query": itemgetter("query")}
         | rag_prompt | hf_llm
     )
+=======
+    lcel_rag_chain = 
+>>>>>>> c4cc6342df5910bb8d77e6e03e4f9fc5c969a699
 
     cl.user_session.set("lcel_rag_chain", lcel_rag_chain)
 
@@ -193,12 +223,21 @@ async def main(message: cl.Message):
 
     msg = cl.Message(content="")
 
+<<<<<<< HEAD
     full_response = ""
 
+=======
+>>>>>>> c4cc6342df5910bb8d77e6e03e4f9fc5c969a699
     async for chunk in lcel_rag_chain.astream(
         {"query": message.content},
         config=RunnableConfig(callbacks=[cl.LangchainCallbackHandler()]),
     ):
+<<<<<<< HEAD
         full_response += chunk.content
 
     await cl.Message(content=full_response).send()
+=======
+        await msg.stream_token(chunk)
+
+    await msg.send()
+>>>>>>> c4cc6342df5910bb8d77e6e03e4f9fc5c969a699
