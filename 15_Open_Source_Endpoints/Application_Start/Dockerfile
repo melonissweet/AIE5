@@ -26,4 +26,8 @@ RUN uv sync
 EXPOSE 7860
 
 # Run the app
+<<<<<<< HEAD
 CMD ["uv", "run", "chainlit", "run", "app.py", "--host", "0.0.0.0", "--port", "7860"]
+=======
+CMD ["uv", "run", "chainlit", "run", "solution_app.py", "--host", "0.0.0.0", "--port", "7860"]
+>>>>>>> c4cc6342df5910bb8d77e6e03e4f9fc5c969a699
